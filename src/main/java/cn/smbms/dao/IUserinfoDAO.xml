@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.smbms.dao.IUserinfoDAO">
+    <!--登录-->
+    <select id="isLogin" resultType="Userinfo">
+        SELECT * FROM smbms_user WHERE username=#{userName} AND  userPassword=#{userPassword}
+    </select>
+    <!--查询所有用户信息-->
+    <select id="findAll" resultType="Userinfo">
+        SELECT * FROM smbms_user
+    </select>
+    <!--查询单页数据-->
+    <select id="getOnePageData"  resultType="UserInfo">
+        select *  from smbms_user
+      where username like '%' #{userName} '%'
+        limit #{pageIndex},#{pageSize}
+    </select>
+    <!--检索表中记录数-->
+    <select id="getTotalRecords" resultType="int">
+        select count(1)  from smbms_user
+    </select>
+    <!--查询表中带条件的总记录数-->
+    <select id="getTotalRecordsByCondition" resultType="int">
+        select count(1)  from smbms_user where userName like '%' #{userName} '%'
+    </select>
+    <!--增加用户-->
+    <insert id="addUser" parameterType="UserInfo">
+        INSERT into smbms_user(userCode,userName,userPassword,gender,birthday,phone,address,userType)
+        values(#{userCode},#{userName},#{userPassword},#{gender},#{birthday},#{phone},#{address},#{userType})
+    </insert>
+    <!--修改用户信息-->
+    <update id="updateUser" parameterType="UserInfo">
+       UPDATE smbms_user set userCode=#{userCode},userName=#{userName},userPassword=#{userPassword},
+        gender=#{gender},birthday=#{birthday},phone=#{phone},address=#{address},userType=#{userType}
+        WHERE  id=#{id}
+    </update>
+</mapper>
